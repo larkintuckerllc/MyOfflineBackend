@@ -74,5 +74,6 @@ export const booksCreate = (bookCreate: BookCreate): Book => {
   const id = uuidv4();
   const lastModified = Date.now();
   const book = { ...bookCreate, id, isDeleted: false, lastModified };
+  data.push(book);
   return book;
 };

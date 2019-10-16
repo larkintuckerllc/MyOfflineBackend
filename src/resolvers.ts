@@ -1,11 +1,4 @@
-import {
-  books,
-  booksCreate,
-  BookCreate,
-  booksUpdate,
-  Book,
-  //
-} from './books';
+import { books, booksCreate, BookCreate, booksUpdate, Book } from './books';
 
 interface BooksUpdateArgs {
   lastModified: string;
@@ -35,8 +28,8 @@ export default {
 
     booksUpdate: (obj: {}, { lastModified: lastModifiedStr }: BooksUpdateArgs): BookGraphQL[] => {
       const lastModified = Number.parseInt(lastModifiedStr, 10);
-      if (Number.isNaN(lastModified)) {
-        // TODO: ERROR NEGATIEVE
+      if (Number.isNaN(lastModified) || lastModified < 0) {
+        throw new Error('400');
       }
       return booksUpdate(lastModified).map(bookToGraphQL);
     },

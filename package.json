@@ -1,0 +1,44 @@
+{
+  "name": "MyOfflineBackend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build-ts": "tsc",
+    "start": "npm run serve",
+    "serve": "npm run build-ts && node dist/server.js",
+    "watch-node": "nodemon dist/server.js",
+    "watch-ts": "tsc -w",
+    "lint": "eslint \"src/**/*.ts\"",
+    "test": "echo \"Success: no test specified\" && exit 0",
+    "watch": "npm run build-ts && concurrently 'npm:watch-ts' 'npm:watch-node'"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.3.3",
+    "@typescript-eslint/parser": "^2.3.3",
+    "concurrently": "^5.0.0",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "husky": "^3.0.9",
+    "lint-staged": "^9.4.2",
+    "nodemon": "^1.19.3",
+    "prettier": "^1.18.2",
+    "typescript": "^3.6.4"
+  },
+  "dependencies": {
+    "@types/cors": "^2.8.6",
+    "@types/express": "^4.17.1",
+    "@types/uuid": "^3.4.5",
+    "apollo-server-express": "^2.9.6",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "graphql": "^14.5.8",
+    "uuid": "^3.3.3"
+  }
+}

@@ -21,6 +21,7 @@ const data = [
     lastModified: 0,
     title: "Philosopher's Stone",
   },
+  /*
   {
     author: 'J.K. Rowling',
     id: '1',
@@ -63,6 +64,7 @@ const data = [
     lastModified: 0,
     title: 'The Deathly Hallows',
   },
+  */
 ] as Book[];
 
 export const books = (): Book[] => data;

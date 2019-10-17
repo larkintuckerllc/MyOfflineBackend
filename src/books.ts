@@ -67,7 +67,7 @@ const data = [
   */
 ] as Book[];
 
-export const books = (): Book[] => data;
+export const books = (): Book[] => data.filter(book => !book.isDeleted);
 
 export const booksUpdate = (lastModified: number): Book[] =>
   data.filter(({ lastModified: bookLastModified }) => bookLastModified >= lastModified);
@@ -78,4 +78,17 @@ export const booksCreate = (bookCreate: BookCreate): Book => {
   const book = { ...bookCreate, id, isDeleted: false, lastModified };
   data.push(book);
   return book;
+};
+
+export const booksDelete = (id: string): Book => {
+  const bookDeleteIndex = data.findIndex(book => book.id === id);
+  if (bookDeleteIndex === -1) {
+    throw new Error('404');
+  }
+  const bookDelete = data[bookDeleteIndex];
+  if (bookDelete.isDeleted) {
+    throw new Error('404');
+  }
+  bookDelete.isDeleted = true;
+  return bookDelete;
 };

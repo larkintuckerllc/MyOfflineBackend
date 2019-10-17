@@ -20,6 +20,7 @@ export default gql`
   }
 
   type Mutation {
-    booksCreate(input: BooksCreateInput): Book
+    booksCreate(input: BooksCreateInput!): Book
+    booksDelete(id: String!): Book
   }
 `;

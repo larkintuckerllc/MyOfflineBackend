@@ -1,4 +1,4 @@
-import { books, booksCreate, BookCreate, booksUpdate, Book } from './books';
+import { books, booksCreate, booksDelete, BookCreate, booksUpdate, Book } from './books';
 
 interface BooksUpdateArgs {
   lastModified: string;
@@ -6,6 +6,10 @@ interface BooksUpdateArgs {
 
 interface BooksCreateArgs {
   input: BookCreate;
+}
+
+interface BooksDeleteArgs {
+  id: string;
 }
 
 interface BookGraphQL {
@@ -40,6 +44,16 @@ export default {
       const book = booksCreate(input);
       const bookGraphQL = bookToGraphQL(book);
       return bookGraphQL;
+    },
+    // eslint-disable-next-line
+    booksDelete: (_: any, { id }: BooksDeleteArgs): BookGraphQL => {
+      try {
+        const book = booksDelete(id);
+        const bookGraphQL = bookToGraphQL(book);
+        return bookGraphQL;
+      } catch (err) {
+        throw new Error('404');
+      }
     },
   },
 };

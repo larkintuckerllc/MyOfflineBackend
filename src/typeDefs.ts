@@ -11,6 +11,7 @@ export default gql`
 
   input BooksCreateInput {
     author: String!
+    id: String!
     title: String!
   }
 

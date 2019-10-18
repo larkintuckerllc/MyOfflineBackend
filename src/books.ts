@@ -1,5 +1,3 @@
-import uuidv4 from 'uuid/v4';
-
 export interface Book {
   author: string;
   id: string;
@@ -10,6 +8,7 @@ export interface Book {
 
 export interface BookCreate {
   author: string;
+  id: string;
   title: string;
 }
 
@@ -73,9 +72,8 @@ export const booksUpdate = (lastModified: number): Book[] =>
   data.filter(({ lastModified: bookLastModified }) => bookLastModified >= lastModified);
 
 export const booksCreate = (bookCreate: BookCreate): Book => {
-  const id = uuidv4();
   const lastModified = Date.now();
-  const book = { ...bookCreate, id, isDeleted: false, lastModified };
+  const book = { ...bookCreate, isDeleted: false, lastModified };
   data.push(book);
   return book;
 };

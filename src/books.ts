@@ -68,8 +68,11 @@ const data = [
 
 export const books = (): Book[] => data.filter(book => !book.isDeleted);
 
-export const booksUpdate = (lastModified: number): Book[] =>
-  data.filter(({ lastModified: bookLastModified }) => bookLastModified >= lastModified);
+export const booksUpdate = (lastModified: number): Book[] => {
+  console.log('DUMP');
+  console.log(data);
+  return data.filter(({ lastModified: bookLastModified }) => bookLastModified >= lastModified);
+};
 
 export const booksCreate = (bookCreate: BookCreate): Book => {
   const lastModified = Date.now();
@@ -87,6 +90,8 @@ export const booksDelete = (id: string): Book => {
   if (bookDelete.isDeleted) {
     throw new Error('404');
   }
+  const lastModified = Date.now();
   bookDelete.isDeleted = true;
+  bookDelete.lastModified = lastModified;
   return bookDelete;
 };

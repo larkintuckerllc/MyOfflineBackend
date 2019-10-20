@@ -32,6 +32,7 @@ export default {
 
     booksUpdate: (obj: {}, { lastModified: lastModifiedStr }: BooksUpdateArgs): BookGraphQL[] => {
       const lastModified = Number.parseInt(lastModifiedStr, 10);
+      console.log(lastModified);
       if (Number.isNaN(lastModified) || lastModified < 0) {
         throw new Error('400');
       }

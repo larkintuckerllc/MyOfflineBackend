@@ -4,13 +4,13 @@ interface BooksUpdateArgs {
   lastModified: string;
 }
 
-interface BooksPageArgsSHIT {
+interface BooksPageArgsInput {
   offset: number;
   first: number;
 }
 
 interface BooksPageArgs {
-  input: BooksPageArgsSHIT;
+  input: BooksPageArgsInput;
 }
 
 interface BooksCreateArgs {
@@ -30,6 +30,11 @@ interface BookGraphQL {
   title: string;
 }
 
+interface BooksPageGraphQL {
+  books: BookGraphQL[];
+  count: number;
+}
+
 const bookToGraphQL = (book: Book): BookGraphQL => {
   const createdStr = book.created.toString();
   const lastModifiedStr = book.lastModified.toString();
@@ -47,8 +52,12 @@ export default {
       }
       return booksUpdate(lastModified).map(bookToGraphQL);
     },
-    booksPage: (obj: {}, { input: { offset, first } }: BooksPageArgs): BookGraphQL[] => {
-      return booksPage(offset, first).map(bookToGraphQL);
+    booksPage: (obj: {}, { input: { offset, first } }: BooksPageArgs): BooksPageGraphQL => {
+      const { books: booksRaw, count } = booksPage(offset, first);
+      return {
+        books: booksRaw.map(bookToGraphQL),
+        count,
+      };
     },
   },
   Mutation: {

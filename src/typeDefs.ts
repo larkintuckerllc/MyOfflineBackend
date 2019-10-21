@@ -20,14 +20,19 @@ export default gql`
     first: Int!
   }
 
+  type BooksPage {
+    books: [Book]!
+    count: Int!
+  }
+
   type Query {
     books: [Book]!
     booksUpdate(lastModified: String!): [Book]!
-    booksPage(input: BooksPageInput!): [Book]!
+    booksPage(input: BooksPageInput!): BooksPage!
   }
 
   type Mutation {
-    booksCreate(input: BooksCreateInput!): Book
-    booksDelete(id: String!): Book
+    booksCreate(input: BooksCreateInput!): Book!
+    booksDelete(id: String!): Book!
   }
 `;

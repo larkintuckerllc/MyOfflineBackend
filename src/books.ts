@@ -13,6 +13,11 @@ export interface BookCreate {
   title: string;
 }
 
+export interface BooksPage {
+  books: Book[];
+  count: number;
+}
+
 const data = [
   {
     author: 'J.K. Rowling',
@@ -82,17 +87,19 @@ export const booksUpdate = (lastModified: number): Book[] => {
 
 const sortCreated = (a: Book, b: Book): number => a.created - b.created;
 
-// TODO: RETURN COUNT
-export const booksPage = (offset: number, first: number): Book[] => {
+export const booksPage = (offset: number, first: number): BooksPage => {
   const count = data.length;
   if (offset < 0 || first < 0 || offset + first > count) {
     throw new Error('400');
   }
   const sortedData = data.sort(sortCreated);
   const slicedData =
-    offset + first === count ? sortedData.slice(offset) : sortedData.slice(offset, first);
+    offset + first === count ? sortedData.slice(offset) : sortedData.slice(offset, offset + first);
   const filteredData = slicedData.filter(filterNotDeleted);
-  return filteredData;
+  return {
+    books: filteredData,
+    count,
+  };
 };
 
 export const booksCreate = (bookCreate: BookCreate): Book => {

@@ -14,6 +14,7 @@ interface BooksDeleteArgs {
 
 interface BookGraphQL {
   author: string;
+  created: string;
   id: string;
   isDeleted: boolean;
   lastModified: string;
@@ -21,8 +22,9 @@ interface BookGraphQL {
 }
 
 const bookToGraphQL = (book: Book): BookGraphQL => {
+  const createdStr = book.created.toString();
   const lastModifiedStr = book.lastModified.toString();
-  const bookGraphQL = { ...book, lastModified: lastModifiedStr };
+  const bookGraphQL = { ...book, created: createdStr, lastModified: lastModifiedStr };
   return bookGraphQL;
 };
 
@@ -32,7 +34,6 @@ export default {
 
     booksUpdate: (obj: {}, { lastModified: lastModifiedStr }: BooksUpdateArgs): BookGraphQL[] => {
       const lastModified = Number.parseInt(lastModifiedStr, 10);
-      console.log(lastModified);
       if (Number.isNaN(lastModified) || lastModified < 0) {
         throw new Error('400');
       }

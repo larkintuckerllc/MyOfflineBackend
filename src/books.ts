@@ -1,5 +1,6 @@
 export interface Book {
   author: string;
+  created: number;
   id: string;
   isDeleted: boolean;
   lastModified: number;
@@ -15,14 +16,15 @@ export interface BookCreate {
 const data = [
   {
     author: 'J.K. Rowling',
+    created: 0,
     id: '0',
     isDeleted: false,
     lastModified: 0,
     title: "Philosopher's Stone",
   },
-  /*
   {
     author: 'J.K. Rowling',
+    created: 1,
     id: '1',
     isDeleted: false,
     lastModified: 0,
@@ -30,6 +32,7 @@ const data = [
   },
   {
     author: 'J.K. Rowling',
+    created: 2,
     id: '2',
     isDeleted: false,
     lastModified: 0,
@@ -37,6 +40,7 @@ const data = [
   },
   {
     author: 'J.K. Rowling',
+    created: 3,
     id: '3',
     isDeleted: false,
     lastModified: 0,
@@ -44,6 +48,7 @@ const data = [
   },
   {
     author: 'J.K. Rowling',
+    created: 4,
     id: '4',
     isDeleted: false,
     lastModified: 0,
@@ -51,6 +56,7 @@ const data = [
   },
   {
     author: 'J.K. Rowling',
+    created: 5,
     id: '5',
     isDeleted: false,
     lastModified: 0,
@@ -58,25 +64,25 @@ const data = [
   },
   {
     author: 'J.K. Rowling',
+    created: 6,
     id: '6',
     isDeleted: false,
     lastModified: 0,
     title: 'The Deathly Hallows',
   },
-  */
 ] as Book[];
 
 export const books = (): Book[] => data.filter(book => !book.isDeleted);
 
 export const booksUpdate = (lastModified: number): Book[] => {
-  console.log('DUMP');
-  console.log(data);
   return data.filter(({ lastModified: bookLastModified }) => bookLastModified >= lastModified);
 };
 
+export const booksPage = (): Book[] => data.filter(book => !book.isDeleted);
+
 export const booksCreate = (bookCreate: BookCreate): Book => {
   const lastModified = Date.now();
-  const book = { ...bookCreate, isDeleted: false, lastModified };
+  const book = { ...bookCreate, created: lastModified, isDeleted: false, lastModified };
   data.push(book);
   return book;
 };

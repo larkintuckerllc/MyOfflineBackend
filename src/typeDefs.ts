@@ -15,9 +15,15 @@ export default gql`
     title: String!
   }
 
+  input BooksPageInput {
+    offset: Int!
+    first: Int!
+  }
+
   type Query {
     books: [Book]!
     booksUpdate(lastModified: String!): [Book]!
+    booksPage(input: BooksPageInput!): [Book]!
   }
 
   type Mutation {

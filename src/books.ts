@@ -72,13 +72,28 @@ const data = [
   },
 ] as Book[];
 
-export const books = (): Book[] => data.filter(book => !book.isDeleted);
+const filterNotDeleted = (book: Book): boolean => !book.isDeleted;
+
+export const books = (): Book[] => data.filter(filterNotDeleted);
 
 export const booksUpdate = (lastModified: number): Book[] => {
   return data.filter(({ lastModified: bookLastModified }) => bookLastModified >= lastModified);
 };
 
-export const booksPage = (): Book[] => data.filter(book => !book.isDeleted);
+const sortCreated = (a: Book, b: Book): number => a.created - b.created;
+
+// TODO: RETURN COUNT
+export const booksPage = (offset: number, first: number): Book[] => {
+  const count = data.length;
+  if (offset < 0 || first < 0 || offset + first > count) {
+    throw new Error('400');
+  }
+  const sortedData = data.sort(sortCreated);
+  const slicedData =
+    offset + first === count ? sortedData.slice(offset) : sortedData.slice(offset, first);
+  const filteredData = slicedData.filter(filterNotDeleted);
+  return filteredData;
+};
 
 export const booksCreate = (bookCreate: BookCreate): Book => {
   const lastModified = Date.now();

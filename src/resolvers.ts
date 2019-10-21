@@ -1,7 +1,16 @@
-import { books, booksCreate, booksDelete, BookCreate, booksUpdate, Book } from './books';
+import { books, booksCreate, booksDelete, booksPage, BookCreate, booksUpdate, Book } from './books';
 
 interface BooksUpdateArgs {
   lastModified: string;
+}
+
+interface BooksPageArgsSHIT {
+  offset: number;
+  first: number;
+}
+
+interface BooksPageArgs {
+  input: BooksPageArgsSHIT;
 }
 
 interface BooksCreateArgs {
@@ -31,13 +40,15 @@ const bookToGraphQL = (book: Book): BookGraphQL => {
 export default {
   Query: {
     books: (): BookGraphQL[] => books().map(bookToGraphQL),
-
     booksUpdate: (obj: {}, { lastModified: lastModifiedStr }: BooksUpdateArgs): BookGraphQL[] => {
       const lastModified = Number.parseInt(lastModifiedStr, 10);
       if (Number.isNaN(lastModified) || lastModified < 0) {
         throw new Error('400');
       }
       return booksUpdate(lastModified).map(bookToGraphQL);
+    },
+    booksPage: (obj: {}, { input: { offset, first } }: BooksPageArgs): BookGraphQL[] => {
+      return booksPage(offset, first).map(bookToGraphQL);
     },
   },
   Mutation: {

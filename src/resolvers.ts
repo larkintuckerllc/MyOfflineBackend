@@ -44,8 +44,12 @@ const bookToGraphQL = (book: Book): BookGraphQL => {
 
 export default {
   Query: {
-    books: (): BookGraphQL[] => books().map(bookToGraphQL),
+    books: (): BookGraphQL[] => {
+      console.log('books');
+      return books().map(bookToGraphQL);
+    },
     booksUpdate: (obj: {}, { lastModified: lastModifiedStr }: BooksUpdateArgs): BookGraphQL[] => {
+      console.log('booksUpdate');
       const lastModified = Number.parseInt(lastModifiedStr, 10);
       if (Number.isNaN(lastModified) || lastModified < 0) {
         throw new Error('400');
@@ -53,6 +57,7 @@ export default {
       return booksUpdate(lastModified).map(bookToGraphQL);
     },
     booksPage: (obj: {}, { input: { offset, first } }: BooksPageArgs): BooksPageGraphQL => {
+      console.log('booksPage');
       const { books: booksRaw, count } = booksPage(offset, first);
       return {
         books: booksRaw.map(bookToGraphQL),

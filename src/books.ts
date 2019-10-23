@@ -89,12 +89,12 @@ const sortCreated = (a: Book, b: Book): number => a.created - b.created;
 
 export const booksPage = (offset: number, first: number): BooksPage => {
   const count = data.length;
-  if (offset < 0 || first < 0 || offset + first > count) {
+  if (offset < 0 || first < 0 || offset > count - 1) {
     throw new Error('400');
   }
   const sortedData = data.sort(sortCreated);
   const slicedData =
-    offset + first === count ? sortedData.slice(offset) : sortedData.slice(offset, offset + first);
+    offset + first >= count ? sortedData.slice(offset) : sortedData.slice(offset, offset + first);
   const filteredData = slicedData.filter(filterNotDeleted);
   return {
     books: filteredData,
